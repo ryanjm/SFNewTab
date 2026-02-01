@@ -5,6 +5,7 @@ const Map = {
   container: null,
   neighborhoods: [],
   highlightedPath: null,
+  originalName: null,
 
   /**
    * Initialize map module
@@ -13,6 +14,7 @@ const Map = {
     this.container = document.getElementById('map-container');
     await this.loadMap();
     this.highlightRandom();
+    this.bindHoverEvents();
   },
 
   /**
@@ -51,17 +53,36 @@ const Map = {
     this.highlightedPath = this.neighborhoods[randomIndex];
     this.highlightedPath.classList.add('highlighted');
 
-    // Update neighborhood name display
-    this.updateNameDisplay();
+    // Store and display the original name
+    this.originalName = this.highlightedPath.getAttribute('data-name');
+    this.updateNameDisplay(this.originalName);
+  },
+
+  /**
+   * Bind hover events to neighborhoods
+   */
+  bindHoverEvents() {
+    // Hover over a neighborhood shows its name
+    this.neighborhoods.forEach(path => {
+      path.addEventListener('mouseenter', () => {
+        const name = path.getAttribute('data-name');
+        this.updateNameDisplay(name);
+      });
+    });
+
+    // Leaving the map reverts to the original highlighted name
+    this.container.addEventListener('mouseleave', () => {
+      this.updateNameDisplay(this.originalName);
+    });
   },
 
   /**
    * Update the neighborhood name display
+   * @param {string} name - Neighborhood name to display
    */
-  updateNameDisplay() {
+  updateNameDisplay(name) {
     const nameElement = document.getElementById('neighborhood-name');
-    if (this.highlightedPath && nameElement) {
-      const name = this.highlightedPath.getAttribute('data-name');
+    if (nameElement) {
       nameElement.textContent = name || '';
     }
   },
