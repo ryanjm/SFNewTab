@@ -1,0 +1,76 @@
+/**
+ * Map rendering and highlighting module
+ */
+const Map = {
+  container: null,
+  neighborhoods: [],
+  highlightedPath: null,
+
+  /**
+   * Initialize map module
+   */
+  async init() {
+    this.container = document.getElementById('map-container');
+    await this.loadMap();
+    this.highlightRandom();
+  },
+
+  /**
+   * Load the SVG map
+   */
+  async loadMap() {
+    try {
+      const response = await fetch('data/sf-map.svg');
+      const svgText = await response.text();
+      this.container.innerHTML = svgText;
+
+      // Get all neighborhood paths
+      const svg = this.container.querySelector('svg');
+      if (svg) {
+        this.neighborhoods = Array.from(svg.querySelectorAll('path[data-name]'));
+      }
+    } catch (error) {
+      console.error('Failed to load map:', error);
+      this.container.innerHTML = '<p>Failed to load map</p>';
+    }
+  },
+
+  /**
+   * Highlight a random neighborhood
+   */
+  highlightRandom() {
+    if (this.neighborhoods.length === 0) return;
+
+    // Remove previous highlight
+    if (this.highlightedPath) {
+      this.highlightedPath.classList.remove('highlighted');
+    }
+
+    // Select random neighborhood
+    const randomIndex = Math.floor(Math.random() * this.neighborhoods.length);
+    this.highlightedPath = this.neighborhoods[randomIndex];
+    this.highlightedPath.classList.add('highlighted');
+
+    // Update neighborhood name display
+    this.updateNameDisplay();
+  },
+
+  /**
+   * Update the neighborhood name display
+   */
+  updateNameDisplay() {
+    const nameElement = document.getElementById('neighborhood-name');
+    if (this.highlightedPath && nameElement) {
+      const name = this.highlightedPath.getAttribute('data-name');
+      nameElement.textContent = name || '';
+    }
+  },
+
+  /**
+   * Get the currently highlighted neighborhood name
+   * @returns {string|null}
+   */
+  getHighlightedName() {
+    return this.highlightedPath?.getAttribute('data-name') || null;
+  }
+};

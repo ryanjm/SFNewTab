@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Shortcuts Section -->
+    <div class="shortcuts" id="shortcuts">
+      <!-- Shortcut slots will be rendered by JS -->
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-container" id="map-container">
+      <!-- SVG map will be loaded here -->
+    </div>
+
+    <!-- Neighborhood Name Display -->
+    <div class="neighborhood-display">
+      <h1 id="neighborhood-name"></h1>
+    </div>
+  </div>
+
+  <!-- Edit Shortcut Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="shortcut-modal">
+      <h2 id="modal-title">Add Shortcut</h2>
+      <form id="shortcut-form">
+        <div class="form-group">
+          <label for="shortcut-name">Name</label>
+          <input type="text" id="shortcut-name" placeholder="Google" required>
+        </div>
+        <div class="form-group">
+          <label for="shortcut-url">URL</label>
+          <input type="url" id="shortcut-url" placeholder="https://google.com" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+          <button type="button" class="btn btn-danger" id="modal-delete" style="display: none;">Delete</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/shortcuts.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
