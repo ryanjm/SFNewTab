@@ -63,51 +63,73 @@ const Shortcuts = {
     const shortcuts = await Storage.getShortcuts();
     this.container.innerHTML = '';
 
+    // Render existing shortcuts
     shortcuts.forEach((shortcut, index) => {
-      const slot = this.createSlot(shortcut, index);
-      this.container.appendChild(slot);
+      if (shortcut) {
+        const slot = this.createShortcutSlot(shortcut, index);
+        this.container.appendChild(slot);
+      }
     });
+
+    // Add one "add" button if there's room
+    const filledCount = shortcuts.filter(s => s !== null).length;
+    if (filledCount < 5) {
+      // Find the first empty slot index
+      const emptyIndex = shortcuts.findIndex(s => s === null);
+      const addButton = this.createAddButton(emptyIndex);
+      this.container.appendChild(addButton);
+    }
   },
 
   /**
    * Create a shortcut slot element
-   * @param {Object|null} shortcut - Shortcut data or null
+   * @param {Object} shortcut - Shortcut data
    * @param {number} index - Slot index
    * @returns {HTMLElement}
    */
-  createSlot(shortcut, index) {
+  createShortcutSlot(shortcut, index) {
     const slot = document.createElement('div');
-    slot.className = `shortcut-slot ${shortcut ? '' : 'empty'}`;
+    slot.className = 'shortcut-slot';
     slot.dataset.index = index;
 
-    if (shortcut) {
-      const faviconUrl = this.getFaviconUrl(shortcut.url);
-      slot.innerHTML = `
-        <a href="${this.escapeHtml(shortcut.url)}" class="shortcut-link">
-          <div class="shortcut-icon">
-            <img src="${faviconUrl}" alt="" onerror="this.style.display='none'">
-          </div>
-          <span class="shortcut-name">${this.escapeHtml(shortcut.name)}</span>
-        </a>
-      `;
-
-      // Left click navigates, right click edits
-      slot.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        this.openModal(index, shortcut);
-      });
-    } else {
-      slot.innerHTML = `
+    const faviconUrl = this.getFaviconUrl(shortcut.url);
+    slot.innerHTML = `
+      <a href="${this.escapeHtml(shortcut.url)}" class="shortcut-link">
         <div class="shortcut-icon">
-          <span class="plus-icon">+</span>
+          <img src="${faviconUrl}" alt="" onerror="this.style.display='none'">
         </div>
-        <span class="shortcut-name">Add shortcut</span>
-      `;
+        <span class="shortcut-name">${this.escapeHtml(shortcut.name)}</span>
+      </a>
+    `;
 
-      slot.addEventListener('click', () => {
-        this.openModal(index, null);
-      });
-    }
+    // Right click to edit
+    slot.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      this.openModal(index, shortcut);
+    });
+
+    return slot;
+  },
+
+  /**
+   * Create the add button
+   * @param {number} index - Slot index for the new shortcut
+   * @returns {HTMLElement}
+   */
+  createAddButton(index) {
+    const slot = document.createElement('div');
+    slot.className = 'shortcut-slot add-button';
+    slot.dataset.index = index;
+
+    slot.innerHTML = `
+      <div class="shortcut-icon">
+        <span class="plus-icon">+</span>
+      </div>
+    `;
+
+    slot.addEventListener('click', () => {
+      this.openModal(index, null);
+    });
 
     return slot;
   },

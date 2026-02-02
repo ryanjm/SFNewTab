@@ -48,14 +48,16 @@ body {
   transform: scale(1.05);
 }
 
-.shortcut-slot.empty {
-  border: 2px dashed #ccc;
+.shortcut-slot.add-button {
+  height: auto;
+}
+
+.shortcut-slot.add-button:hover {
   background-color: transparent;
 }
 
-.shortcut-slot.empty:hover {
-  border-color: #999;
-  background-color: rgba(0, 0, 0, 0.02);
+.shortcut-slot.add-button:hover .shortcut-icon {
+  background-color: #f0f0f0;
 }
 
 .shortcut-icon {
