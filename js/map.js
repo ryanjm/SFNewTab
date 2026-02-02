@@ -18,11 +18,13 @@ const Map = {
   },
 
   /**
-   * Load the SVG map
+   * Load the SVG map based on user preference
    */
   async loadMap() {
     try {
-      const response = await fetch('data/sf-map.svg');
+      const mapType = await Storage.getMapType();
+      const mapFile = `data/sf-map-${mapType}.svg`;
+      const response = await fetch(mapFile);
       const svgText = await response.text();
       this.container.innerHTML = svgText;
 

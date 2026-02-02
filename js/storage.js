@@ -3,7 +3,9 @@
  */
 const Storage = {
   SHORTCUTS_KEY: 'shortcuts',
+  MAP_TYPE_KEY: 'mapType',
   DEFAULT_SHORTCUTS: [null, null, null, null, null],
+  DEFAULT_MAP_TYPE: 'analysis',
 
   /**
    * Get shortcuts from storage
@@ -51,5 +53,38 @@ const Storage = {
     shortcuts[index] = shortcut;
     await this.saveShortcuts(shortcuts);
     return shortcuts;
+  },
+
+  /**
+   * Get map type from storage
+   * @returns {Promise<string>} 'analysis' or 'local'
+   */
+  async getMapType() {
+    return new Promise((resolve) => {
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.get([this.MAP_TYPE_KEY], (result) => {
+          resolve(result[this.MAP_TYPE_KEY] || this.DEFAULT_MAP_TYPE);
+        });
+      } else {
+        const stored = localStorage.getItem(this.MAP_TYPE_KEY);
+        resolve(stored || this.DEFAULT_MAP_TYPE);
+      }
+    });
+  },
+
+  /**
+   * Set map type in storage
+   * @param {string} mapType - 'analysis' or 'local'
+   * @returns {Promise<void>}
+   */
+  async setMapType(mapType) {
+    return new Promise((resolve) => {
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.set({ [this.MAP_TYPE_KEY]: mapType }, resolve);
+      } else {
+        localStorage.setItem(this.MAP_TYPE_KEY, mapType);
+        resolve();
+      }
+    });
   }
 };
