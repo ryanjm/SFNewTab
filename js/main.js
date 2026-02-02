@@ -21,4 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Standard mode
     Map.bindHoverEvents();
   }
+
+  // Settings button
+  document.getElementById('settings-button').addEventListener('click', () => {
+    chrome.runtime.openOptionsPage();
+  });
 });

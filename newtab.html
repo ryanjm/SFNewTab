@@ -18,19 +18,30 @@
       <!-- SVG map will be loaded here -->
     </div>
 
-    <!-- Neighborhood Name Display (Standard Mode) -->
-    <div class="neighborhood-display" id="standard-display">
-      <h1 id="neighborhood-name"></h1>
-    </div>
-
-    <!-- Quiz Mode Display -->
-    <div class="quiz-display" id="quiz-display" style="display: none;">
-      <div class="quiz-question">Which neighborhood is this?</div>
-      <div class="quiz-options" id="quiz-options">
-        <!-- Quiz buttons will be rendered by JS -->
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+      <!-- Neighborhood Name Display (Standard Mode) -->
+      <div class="neighborhood-display" id="standard-display">
+        <h1 id="neighborhood-name"></h1>
       </div>
-      <div class="quiz-result" id="quiz-result"></div>
-      <div class="quiz-stats" id="quiz-stats"></div>
+
+      <!-- Quiz Mode Display -->
+      <div class="quiz-display" id="quiz-display" style="display: none;">
+        <div class="quiz-question">Which neighborhood is this?</div>
+        <div class="quiz-options" id="quiz-options">
+          <!-- Quiz buttons will be rendered by JS -->
+        </div>
+        <div class="quiz-result" id="quiz-result"></div>
+        <div class="quiz-stats" id="quiz-stats"></div>
+      </div>
+
+      <!-- Settings Button -->
+      <button class="settings-button" id="settings-button" title="Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+        </svg>
+      </button>
     </div>
   </div>
 
