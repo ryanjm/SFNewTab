@@ -92,15 +92,28 @@ const Shortcuts = {
     slot.className = 'shortcut-slot';
     slot.dataset.index = index;
 
-    const faviconUrl = this.getFaviconUrl(shortcut.url);
+    const urls = shortcut.url.split(';').map(u => u.trim()).filter(u => u);
+    const firstUrl = urls[0];
+    const faviconUrl = this.getFaviconUrl(firstUrl);
+
     slot.innerHTML = `
-      <a href="${this.escapeHtml(shortcut.url)}" target="_blank" rel="noopener" class="shortcut-link">
+      <a href="${this.escapeHtml(firstUrl)}" class="shortcut-link">
         <div class="shortcut-icon">
           <img src="${faviconUrl}" alt="" onerror="this.style.display='none'">
         </div>
         <span class="shortcut-name">${this.escapeHtml(shortcut.name)}</span>
       </a>
     `;
+
+    // Handle click for multi-URL shortcuts
+    const link = slot.querySelector('a');
+    link.addEventListener('click', (e) => {
+      if (urls.length > 1) {
+        e.preventDefault();
+        this.openMultipleUrls(urls);
+      }
+      // Single URL: let the default link behavior happen (opens in current tab)
+    });
 
     // Right click to edit
     slot.addEventListener('contextmenu', (e) => {
@@ -109,6 +122,22 @@ const Shortcuts = {
     });
 
     return slot;
+  },
+
+  /**
+   * Open multiple URLs - background tabs first, then current tab
+   * @param {Array<string>} urls - Array of URLs to open
+   */
+  async openMultipleUrls(urls) {
+    if (urls.length === 0) return;
+
+    // Open background tabs for all URLs except the first
+    for (let i = 1; i < urls.length; i++) {
+      await chrome.tabs.create({ url: urls[i], active: false });
+    }
+
+    // Navigate current tab to the first URL
+    chrome.tabs.update({ url: urls[0] });
   },
 
   /**

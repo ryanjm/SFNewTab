@@ -3,7 +3,7 @@
   "name": "SF Neighborhood New Tab",
   "version": "1.0.0",
   "description": "A new tab page featuring San Francisco neighborhoods",
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs"],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
