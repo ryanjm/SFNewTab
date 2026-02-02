@@ -77,6 +77,55 @@ body {
   height: 32px;
 }
 
+/* Multi-favicon layout */
+.shortcut-icon.multi-favicon {
+  position: relative;
+}
+
+.shortcut-icon.multi-favicon img {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* 2 favicons: side by side */
+.shortcut-icon.multi-favicon img.favicon-left {
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.shortcut-icon.multi-favicon img.favicon-right {
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* 3 favicons: triangle */
+.shortcut-icon.multi-favicon img.favicon-top {
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.shortcut-icon.multi-favicon img.favicon-bottom-left {
+  bottom: 4px;
+  left: 6px;
+  z-index: 2;
+}
+
+.shortcut-icon.multi-favicon img.favicon-bottom-right {
+  bottom: 4px;
+  right: 6px;
+  z-index: 1;
+}
+
 .shortcut-icon .plus-icon {
   font-size: 24px;
   color: #999;

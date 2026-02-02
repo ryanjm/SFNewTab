@@ -94,12 +94,12 @@ const Shortcuts = {
 
     const urls = shortcut.url.split(';').map(u => u.trim()).filter(u => u);
     const firstUrl = urls[0];
-    const faviconUrl = this.getFaviconUrl(firstUrl);
+    const faviconHtml = this.createFaviconHtml(urls);
 
     slot.innerHTML = `
       <a href="${this.escapeHtml(firstUrl)}" class="shortcut-link">
-        <div class="shortcut-icon">
-          <img src="${faviconUrl}" alt="" onerror="this.style.display='none'">
+        <div class="shortcut-icon ${urls.length > 1 ? 'multi-favicon' : ''}">
+          ${faviconHtml}
         </div>
         <span class="shortcut-name">${this.escapeHtml(shortcut.name)}</span>
       </a>
@@ -175,6 +175,28 @@ const Shortcuts = {
     } catch {
       return '';
     }
+  },
+
+  /**
+   * Create favicon HTML for single or multiple URLs
+   * @param {Array<string>} urls - Array of URLs
+   * @returns {string} HTML string
+   */
+  createFaviconHtml(urls) {
+    const count = Math.min(urls.length, 3);
+
+    if (count === 1) {
+      const faviconUrl = this.getFaviconUrl(urls[0]);
+      return `<img src="${faviconUrl}" alt="" onerror="this.style.display='none'">`;
+    }
+
+    // Multiple favicons with position classes
+    const positions = count === 2 ? ['left', 'right'] : ['top', 'bottom-left', 'bottom-right'];
+
+    return urls.slice(0, count).map((url, i) => {
+      const faviconUrl = this.getFaviconUrl(url);
+      return `<img src="${faviconUrl}" alt="" class="favicon-${positions[i]}" onerror="this.style.display='none'">`;
+    }).join('');
   },
 
   /**
