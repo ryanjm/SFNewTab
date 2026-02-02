@@ -191,20 +191,22 @@
       load();
     }
 
-    // Initialize both settings
-    setupRadioGroup(
-      'map-type-options',
-      'map-saved-badge',
-      () => Storage.getMapType(),
-      (v) => Storage.setMapType(v)
-    );
+    // Initialize both settings when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      setupRadioGroup(
+        'map-type-options',
+        'map-saved-badge',
+        () => Storage.getMapType(),
+        (v) => Storage.setMapType(v)
+      );
 
-    setupRadioGroup(
-      'mode-options',
-      'mode-saved-badge',
-      () => Storage.getMode(),
-      (v) => Storage.setMode(v)
-    );
+      setupRadioGroup(
+        'mode-options',
+        'mode-saved-badge',
+        () => Storage.getMode(),
+        (v) => Storage.setMode(v)
+      );
+    });
   </script>
 </body>
 </html>
