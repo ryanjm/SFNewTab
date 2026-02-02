@@ -62,17 +62,22 @@ const Map = {
    * Bind hover events to neighborhoods
    */
   bindHoverEvents() {
+    const nameElement = document.getElementById('neighborhood-name');
+
     // Hover over a neighborhood shows its name
     this.neighborhoods.forEach(path => {
       path.addEventListener('mouseenter', () => {
         const name = path.getAttribute('data-name');
+        const isHighlighted = path === this.highlightedPath;
         this.updateNameDisplay(name);
+        nameElement.classList.toggle('muted', !isHighlighted);
       });
     });
 
     // Leaving the map reverts to the original highlighted name
     this.container.addEventListener('mouseleave', () => {
       this.updateNameDisplay(this.originalName);
+      nameElement.classList.remove('muted');
     });
   },
 

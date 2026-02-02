@@ -130,6 +130,11 @@ body {
   font-weight: 300;
   color: #0d9488;
   letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+#neighborhood-name.muted {
+  color: #999;
 }
 
 /* Modal Styles */
