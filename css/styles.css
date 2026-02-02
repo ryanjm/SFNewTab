@@ -7,7 +7,8 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   background-color: #f8f9fa;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   color: #333;
 }
 
@@ -15,15 +16,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
-  min-height: 100vh;
+  padding: 24px 20px;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* Shortcuts Section */
 .shortcuts {
   display: flex;
   gap: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
 .shortcut-slot {
@@ -88,19 +91,21 @@ body {
 
 /* Map Section */
 .map-container {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 800px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .map-container svg {
   width: 100%;
-  height: auto;
-  max-height: 70vh;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .map-container svg path {
@@ -122,7 +127,8 @@ body {
 /* Neighborhood Display */
 .neighborhood-display {
   text-align: center;
-  padding: 20px;
+  padding: 16px;
+  flex-shrink: 0;
 }
 
 #neighborhood-name {
@@ -255,7 +261,8 @@ body {
 /* Quiz Mode */
 .quiz-display {
   text-align: center;
-  padding: 20px;
+  padding: 16px;
+  flex-shrink: 0;
 }
 
 .quiz-question {
