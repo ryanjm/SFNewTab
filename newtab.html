@@ -18,9 +18,19 @@
       <!-- SVG map will be loaded here -->
     </div>
 
-    <!-- Neighborhood Name Display -->
-    <div class="neighborhood-display">
+    <!-- Neighborhood Name Display (Standard Mode) -->
+    <div class="neighborhood-display" id="standard-display">
       <h1 id="neighborhood-name"></h1>
+    </div>
+
+    <!-- Quiz Mode Display -->
+    <div class="quiz-display" id="quiz-display" style="display: none;">
+      <div class="quiz-question">Which neighborhood is this?</div>
+      <div class="quiz-options" id="quiz-options">
+        <!-- Quiz buttons will be rendered by JS -->
+      </div>
+      <div class="quiz-result" id="quiz-result"></div>
+      <div class="quiz-stats" id="quiz-stats"></div>
     </div>
   </div>
 
@@ -49,6 +59,7 @@
   <script src="js/storage.js"></script>
   <script src="js/shortcuts.js"></script>
   <script src="js/map.js"></script>
+  <script src="js/quiz.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

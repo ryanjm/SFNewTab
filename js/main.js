@@ -5,6 +5,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize shortcuts
   await Shortcuts.init();
 
-  // Initialize map
-  await Map.init();
+  // Get the current mode
+  const mode = await Storage.getMode();
+
+  // Initialize map (but don't bind hover events in quiz mode)
+  await Map.loadMap();
+  Map.highlightRandom();
+
+  if (mode === 'quiz') {
+    // Quiz mode
+    document.getElementById('standard-display').style.display = 'none';
+    document.getElementById('quiz-display').style.display = 'block';
+    await Quiz.init();
+  } else {
+    // Standard mode
+    Map.bindHoverEvents();
+  }
 });

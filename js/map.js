@@ -21,6 +21,7 @@ const Map = {
    * Load the SVG map based on user preference
    */
   async loadMap() {
+    this.container = document.getElementById('map-container');
     try {
       const mapType = await Storage.getMapType();
       const mapFile = `data/sf-map-${mapType}.svg`;

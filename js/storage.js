@@ -4,8 +4,11 @@
 const Storage = {
   SHORTCUTS_KEY: 'shortcuts',
   MAP_TYPE_KEY: 'mapType',
+  MODE_KEY: 'mode',
+  QUIZ_HISTORY_KEY: 'quizHistory',
   DEFAULT_SHORTCUTS: [null, null, null, null, null],
   DEFAULT_MAP_TYPE: 'local',
+  DEFAULT_MODE: 'standard',
 
   /**
    * Get shortcuts from storage
@@ -86,5 +89,91 @@ const Storage = {
         resolve();
       }
     });
+  },
+
+  /**
+   * Get mode from storage
+   * @returns {Promise<string>} 'standard' or 'quiz'
+   */
+  async getMode() {
+    return new Promise((resolve) => {
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.get([this.MODE_KEY], (result) => {
+          resolve(result[this.MODE_KEY] || this.DEFAULT_MODE);
+        });
+      } else {
+        const stored = localStorage.getItem(this.MODE_KEY);
+        resolve(stored || this.DEFAULT_MODE);
+      }
+    });
+  },
+
+  /**
+   * Set mode in storage
+   * @param {string} mode - 'standard' or 'quiz'
+   * @returns {Promise<void>}
+   */
+  async setMode(mode) {
+    return new Promise((resolve) => {
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.set({ [this.MODE_KEY]: mode }, resolve);
+      } else {
+        localStorage.setItem(this.MODE_KEY, mode);
+        resolve();
+      }
+    });
+  },
+
+  /**
+   * Get quiz history (last 7 days)
+   * @returns {Promise<Array>} Array of {timestamp, correct} objects
+   */
+  async getQuizHistory() {
+    return new Promise((resolve) => {
+      const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.local.get([this.QUIZ_HISTORY_KEY], (result) => {
+          const history = result[this.QUIZ_HISTORY_KEY] || [];
+          // Filter to last 7 days
+          resolve(history.filter(h => h.timestamp > sevenDaysAgo));
+        });
+      } else {
+        const stored = localStorage.getItem(this.QUIZ_HISTORY_KEY);
+        const history = stored ? JSON.parse(stored) : [];
+        resolve(history.filter(h => h.timestamp > sevenDaysAgo));
+      }
+    });
+  },
+
+  /**
+   * Add a quiz result to history
+   * @param {boolean} correct - Whether the answer was correct
+   * @returns {Promise<void>}
+   */
+  async addQuizResult(correct) {
+    const history = await this.getQuizHistory();
+    history.push({ timestamp: Date.now(), correct });
+
+    return new Promise((resolve) => {
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.local.set({ [this.QUIZ_HISTORY_KEY]: history }, resolve);
+      } else {
+        localStorage.setItem(this.QUIZ_HISTORY_KEY, JSON.stringify(history));
+        resolve();
+      }
+    });
+  },
+
+  /**
+   * Get quiz stats for last 7 days
+   * @returns {Promise<{total: number, correct: number, accuracy: number}>}
+   */
+  async getQuizStats() {
+    const history = await this.getQuizHistory();
+    const total = history.length;
+    const correct = history.filter(h => h.correct).length;
+    const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+    return { total, correct, accuracy };
   }
 };
