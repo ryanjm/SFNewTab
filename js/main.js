@@ -2,6 +2,9 @@
  * Main initialization module
  */
 document.addEventListener('DOMContentLoaded', async () => {
+  // Initialize theme first
+  await Theme.init();
+
   // Initialize shortcuts
   await Shortcuts.init();
 

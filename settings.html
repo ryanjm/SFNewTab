@@ -142,7 +142,36 @@
     <div class="saved-badge" id="mode-saved-badge">Saved</div>
   </div>
 
+  <div class="setting-group">
+    <label class="setting-label">Theme</label>
+    <div class="radio-group" id="theme-options">
+      <label class="radio-option" data-value="system">
+        <input type="radio" name="theme" value="system">
+        <div class="radio-content">
+          <div class="radio-title">System</div>
+          <div class="radio-description">Follow your operating system's light or dark mode setting</div>
+        </div>
+      </label>
+      <label class="radio-option" data-value="light">
+        <input type="radio" name="theme" value="light">
+        <div class="radio-content">
+          <div class="radio-title">Light</div>
+          <div class="radio-description">Always use light theme</div>
+        </div>
+      </label>
+      <label class="radio-option" data-value="dark">
+        <input type="radio" name="theme" value="dark">
+        <div class="radio-content">
+          <div class="radio-title">Dark</div>
+          <div class="radio-description">Always use dark theme</div>
+        </div>
+      </label>
+    </div>
+    <div class="saved-badge" id="theme-saved-badge">Saved</div>
+  </div>
+
   <script src="js/storage.js"></script>
+  <script src="js/theme.js"></script>
   <script src="js/settings.js"></script>
 </body>
 </html>

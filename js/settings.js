@@ -50,7 +50,10 @@ function setupRadioGroup(containerId, badgeId, getSetting, setSetting) {
 }
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Initialize theme
+  await Theme.init();
+
   setupRadioGroup(
     'map-type-options',
     'map-saved-badge',
@@ -63,5 +66,15 @@ document.addEventListener('DOMContentLoaded', () => {
     'mode-saved-badge',
     () => Storage.getMode(),
     (v) => Storage.setMode(v)
+  );
+
+  setupRadioGroup(
+    'theme-options',
+    'theme-saved-badge',
+    () => Storage.getTheme(),
+    async (v) => {
+      await Storage.setTheme(v);
+      await Theme.applyTheme();
+    }
   );
 });

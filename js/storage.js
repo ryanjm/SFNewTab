@@ -5,10 +5,12 @@ const Storage = {
   SHORTCUTS_KEY: 'shortcuts',
   MAP_TYPE_KEY: 'mapType',
   MODE_KEY: 'mode',
+  THEME_KEY: 'theme',
   QUIZ_HISTORY_KEY: 'quizHistory',
   DEFAULT_SHORTCUTS: [null, null, null, null, null],
   DEFAULT_MAP_TYPE: 'local',
   DEFAULT_MODE: 'standard',
+  DEFAULT_THEME: 'system',
 
   /**
    * Get shortcuts from storage
@@ -119,6 +121,39 @@ const Storage = {
         chrome.storage.sync.set({ [this.MODE_KEY]: mode }, resolve);
       } else {
         localStorage.setItem(this.MODE_KEY, mode);
+        resolve();
+      }
+    });
+  },
+
+  /**
+   * Get theme from storage
+   * @returns {Promise<string>} 'light', 'dark', or 'system'
+   */
+  async getTheme() {
+    return new Promise((resolve) => {
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.get([this.THEME_KEY], (result) => {
+          resolve(result[this.THEME_KEY] || this.DEFAULT_THEME);
+        });
+      } else {
+        const stored = localStorage.getItem(this.THEME_KEY);
+        resolve(stored || this.DEFAULT_THEME);
+      }
+    });
+  },
+
+  /**
+   * Set theme in storage
+   * @param {string} theme - 'light', 'dark', or 'system'
+   * @returns {Promise<void>}
+   */
+  async setTheme(theme) {
+    return new Promise((resolve) => {
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.set({ [this.THEME_KEY]: theme }, resolve);
+      } else {
+        localStorage.setItem(this.THEME_KEY, theme);
         resolve();
       }
     });
