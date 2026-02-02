@@ -10,13 +10,15 @@
       padding: 40px;
       max-width: 500px;
       margin: 0 auto;
+      height: auto;
+      overflow: auto;
     }
 
     h1 {
       font-size: 24px;
       font-weight: 500;
       margin-bottom: 32px;
-      color: #333;
+      color: var(--text-color);
     }
 
     .setting-group {
@@ -27,7 +29,7 @@
       display: block;
       font-size: 14px;
       font-weight: 500;
-      color: #333;
+      color: var(--text-color);
       margin-bottom: 12px;
     }
 
@@ -42,24 +44,24 @@
       align-items: flex-start;
       gap: 12px;
       padding: 16px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       cursor: pointer;
       transition: border-color 0.2s, background-color 0.2s;
     }
 
     .radio-option:hover {
-      border-color: #999;
+      border-color: var(--text-light);
     }
 
     .radio-option.selected {
-      border-color: #0d9488;
-      background-color: rgba(13, 148, 136, 0.05);
+      border-color: var(--accent-color);
+      background-color: rgba(13, 148, 136, 0.1);
     }
 
     .radio-option input[type="radio"] {
       margin-top: 2px;
-      accent-color: #0d9488;
+      accent-color: var(--accent-color);
     }
 
     .radio-content {
@@ -68,19 +70,19 @@
 
     .radio-title {
       font-weight: 500;
-      color: #333;
+      color: var(--text-color);
       margin-bottom: 4px;
     }
 
     .radio-description {
       font-size: 13px;
-      color: #666;
+      color: var(--text-muted);
     }
 
     .saved-badge {
       display: inline-block;
       padding: 6px 12px;
-      background-color: #0d9488;
+      background-color: var(--accent-color);
       color: white;
       border-radius: 4px;
       font-size: 13px;
