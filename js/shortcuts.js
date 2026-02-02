@@ -94,7 +94,7 @@ const Shortcuts = {
 
     const faviconUrl = this.getFaviconUrl(shortcut.url);
     slot.innerHTML = `
-      <a href="${this.escapeHtml(shortcut.url)}" class="shortcut-link">
+      <a href="${this.escapeHtml(shortcut.url)}" target="_blank" rel="noopener" class="shortcut-link">
         <div class="shortcut-icon">
           <img src="${faviconUrl}" alt="" onerror="this.style.display='none'">
         </div>
