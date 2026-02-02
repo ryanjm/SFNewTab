@@ -5,7 +5,7 @@ const Storage = {
   SHORTCUTS_KEY: 'shortcuts',
   MAP_TYPE_KEY: 'mapType',
   DEFAULT_SHORTCUTS: [null, null, null, null, null],
-  DEFAULT_MAP_TYPE: 'analysis',
+  DEFAULT_MAP_TYPE: 'local',
 
   /**
    * Get shortcuts from storage

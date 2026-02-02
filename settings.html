@@ -77,18 +77,23 @@
       color: #666;
     }
 
-    .saved-message {
-      display: none;
-      padding: 12px 16px;
+    .saved-badge {
+      display: inline-block;
+      padding: 6px 12px;
       background-color: #0d9488;
       color: white;
-      border-radius: 8px;
-      font-size: 14px;
-      margin-top: 24px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 16px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.3s, transform 0.3s;
     }
 
-    .saved-message.show {
-      display: block;
+    .saved-badge.show {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -98,13 +103,6 @@
   <div class="setting-group">
     <label class="setting-label">Map Type</label>
     <div class="radio-group" id="map-type-options">
-      <label class="radio-option" data-value="analysis">
-        <input type="radio" name="mapType" value="analysis">
-        <div class="radio-content">
-          <div class="radio-title">Analysis Neighborhoods</div>
-          <div class="radio-description">37 larger neighborhoods used for city data analysis and reporting</div>
-        </div>
-      </label>
       <label class="radio-option" data-value="local">
         <input type="radio" name="mapType" value="local">
         <div class="radio-content">
@@ -112,15 +110,22 @@
           <div class="radio-description">117 detailed neighborhoods reflecting local community names</div>
         </div>
       </label>
+      <label class="radio-option" data-value="analysis">
+        <input type="radio" name="mapType" value="analysis">
+        <div class="radio-content">
+          <div class="radio-title">Analysis Neighborhoods</div>
+          <div class="radio-description">37 larger neighborhoods used for city data analysis and reporting</div>
+        </div>
+      </label>
     </div>
+    <div class="saved-badge" id="saved-badge">Saved</div>
   </div>
-
-  <div class="saved-message" id="saved-message">Settings saved</div>
 
   <script src="js/storage.js"></script>
   <script>
     const options = document.querySelectorAll('.radio-option');
-    const savedMessage = document.getElementById('saved-message');
+    const savedBadge = document.getElementById('saved-badge');
+    let fadeTimeout;
 
     // Load current setting
     async function loadSettings() {
@@ -150,11 +155,12 @@
         // Save to storage
         await Storage.setMapType(value);
 
-        // Show saved message
-        savedMessage.classList.add('show');
-        setTimeout(() => {
-          savedMessage.classList.remove('show');
-        }, 2000);
+        // Show saved badge
+        clearTimeout(fadeTimeout);
+        savedBadge.classList.add('show');
+        fadeTimeout = setTimeout(() => {
+          savedBadge.classList.remove('show');
+        }, 1500);
       });
     });
 
