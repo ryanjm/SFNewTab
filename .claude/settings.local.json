@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:gist.githubusercontent.com)",
+      "WebFetch(domain:developer.chrome.com)",
+      "WebFetch(domain:data.sfgov.org)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(tree:*)",
+      "Bash(node --check:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(node /Users/ryanjm/code/SFNewTab/convert-geojson.js:*)",
+      "WebFetch(domain:www.sf.gov)",
+      "WebFetch(domain:github.com)",
+      "Bash(https://calendar.google.com)",
+      "Bash(https://drive.google.com\"\n\nWhen clicked:\n1. Background tabs open for all URLs except the first\n2. Current tab navigates to the first URL\n\nAdded \"tabs\" permission to manifest for chrome.tabs API.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push)"
+    ]
+  }
+}
