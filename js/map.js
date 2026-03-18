@@ -75,6 +75,14 @@ const Map = {
         this.updateNameDisplay(name);
         nameElement.classList.toggle('muted', !isHighlighted);
       });
+
+      path.addEventListener('mouseleave', (e) => {
+        const movingToPath = e.relatedTarget && e.relatedTarget.getAttribute('data-name');
+        if (!movingToPath) {
+          this.updateNameDisplay(this.originalName);
+          nameElement.classList.remove('muted');
+        }
+      });
     });
 
     // Leaving the map reverts to the original highlighted name
